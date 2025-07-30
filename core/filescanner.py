@@ -4,7 +4,6 @@ import shutil
 # gives python permission to move files into quarantine
 import subprocess
 
-
 from config import QUARANTINE_DIR
 #Library of file considered dangerous
 from logger import log_alert
