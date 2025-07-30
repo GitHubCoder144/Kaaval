@@ -2,10 +2,10 @@ import os
 import platform
 import shutil
 # gives python permission to move files into quarantine
+import subprocess
 
-from plyer import notification
-#shows cross-platform alerts
-from config import SUSPICIOUS_EXTENSIONS, QUARANTINE_DIR
+
+from config import QUARANTINE_DIR
 #Library of file considered dangerous
 from logger import log_alert
 #To print the log alert
@@ -47,11 +47,36 @@ def quarantine(filepath):
 # 5. gives new location of file
 
 def ualerts(message):
-    notification.notify(
-        title="📣📣 Alert",
-        message=message,
-        timeout=5
-    )
+    current_os = platform.system()
+
+    if current_os == "Darwin":
+        try:
+            escaped_message = message.replace('"', '\\"')
+            subprocess.run([
+                 "osascript", "-e",
+                f'display notification "{escaped_message}" with title "📣📣 Kavval Alert"'
+            ])
+        except Exception as e:
+            print("[macOS Alert Error]", e)
+
+    elif current_os == "Windows":
+        try:
+            import win10toast
+            toaster = win10toast.ToastNotifier()
+            toaster.show_toast("📣📣 Kavval Alert", message, duration=5)
+        except Exception as e:
+            print("[Windows Alert Error]", e)
+
+    elif current_os == "Linux":
+        try:
+            subprocess.run([
+                "notify-send", "📣📣 Kavval Alert", message
+            ])
+        except Exception as e:
+            print("[Linux Alert Error]", e)
+
+    else:
+        print("[Unknown OS]" + message)
 
     log_alert(message)
 
