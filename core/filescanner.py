@@ -1,16 +1,17 @@
 import os
 import shutil
-#Move, Copy, delete files
-from config import SUSPICIOUS_EXTENSIONS
+# gives python permission to move files into quarantine
+
+from plyer import notification
+#shows cross-platform alerts
+from config import SUSPICIOUS_EXTENSIONS, QUARANTINE_DIR
 #Library of file considered dangerous
 from logger import log_alert
 #To print the log alert
-from config import QUARANTINE_DIR
+
+
 #makes a standard quarantine files to
 # store malicious files
-from plyer import notification
-
-
 def suspiciousfile(path):
     _, ext = os.path.splitext(path)
     return ext.lower() in SUSPICIOUS_EXTENSIONS
