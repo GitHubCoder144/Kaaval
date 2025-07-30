@@ -1,4 +1,5 @@
 import os
+import platform
 import shutil
 # gives python permission to move files into quarantine
 
@@ -14,7 +15,20 @@ from logger import log_alert
 # store malicious files
 def suspiciousfile(path):
     _, ext = os.path.splitext(path)
-    return ext.lower() in SUSPICIOUS_EXTENSIONS
+    ext = ext.lower()
+
+    current_os = platform.system()
+
+    if current_os == "Windows":
+            suspicious_extensions = ['.exe', '.dll']
+    elif current_os == "Darwin":
+            suspicious_extensions = ['.dmg', '.pkg', '.sh']
+    elif current_os == "Linux":
+            suspicious_extensions = ['.sh', '.bin', '.run']
+    else:
+        suspicious_extensions = ['.sh', '.bin']
+
+    return ext in suspicious_extensions
 
 # extract and expands extension and verifys if suspicious
 
@@ -34,7 +48,7 @@ def quarantine(filepath):
 
 def ualerts(message):
     notification.notify(
-        title="📣📣 Kaaval Alert",
+        title="📣📣 Alert",
         message=message,
         timeout=5
     )
@@ -46,9 +60,17 @@ def ualerts(message):
 def filescan(filepath):
     if suspiciousfile(filepath):
         quarantined_path = quarantine(filepath)
-        ualerts(f"SUSPICIOUS FILE DETECTED AND QUARANTINED: {quarantined_path}")
+        message = (
+        f"📬Kavval has held '{os.path.basename(filepath)}' for secondary review.\n"
+        "It has been moved to secure location.\n"
+        "Please individually verify before proceeding"
+        )
+        ualerts(message)
     else:
-        ualerts(f"File {filepath} is clean and safe to use.")
+        ualerts(
+            f"'{os.path.basename(filepath)}' has been verified.\n"
+            "This file may be used as intended."
+        )
 
 # The Decision - maker: decided to either quarantine it or not
 # if yes:
@@ -57,4 +79,4 @@ def filescan(filepath):
 # "file is safe" message
 
 if __name__ == "__main__":
-    ualerts("Suspicious File Found and quarantined")
+    ualerts("File Found and quarantined for secondary review")
