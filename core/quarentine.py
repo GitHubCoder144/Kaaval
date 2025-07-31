@@ -35,12 +35,30 @@ def restoration(filename):
 
         if os.path.exists(dest_path):
             base, ext = os.path.splitext(filename)
-            dest_path = os.path.join(DOWNLOADS_DIR, f"{base} -restored{ext}")
+            dest_path = os.path.join(DOWNLOADS_DIR, f"{base} _restored{ext}")
 
         shutil.move(src_path, dest_path)
         print(f"Quarantine File '{filename}' Moved to Downloads Folder.")
         return True
 
     except Exception as e:
-        print("Restoring File Error {e}")
+        print(f"Restoring File Error {e}")
         return False
+
+def delete(filename):
+    full_path = os.path.join(QUARANTINE_DIR, str(filename))
+    try:
+        if not os.path.exists(full_path):
+            print(f"Quarantine File '{filename}' Not Found!!")
+            return False
+
+        if os.path.exists(full_path):
+            os.remove(full_path)
+            print(f"Quarantine File '{filename}' Deleted.")
+            return True
+
+    except Exception as e:
+            print(f"Delete File Error: {e}")
+            return False
+
+    return False
