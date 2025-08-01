@@ -15,6 +15,7 @@ pip3 install watchdog
 pip install win10toast
 # FOR PYTHON 3 
 pip3 install win10toast
+```
 
 ```bash
 git clone https://github.com/GitHubCoder144/Kaaval.git
