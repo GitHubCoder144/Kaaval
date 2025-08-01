@@ -1,2 +1,2 @@
-def log_alert(message):
+def log_alerts(message):
     print(f"[ALERT] {message}")

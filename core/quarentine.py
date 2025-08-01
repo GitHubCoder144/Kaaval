@@ -1,7 +1,21 @@
 import os
 import shutil
 
-from config import QUARANTINE_DIR, DOWNLOADS_DIR
+from .config import QUARANTINE_DIR, DOWNLOADS_DIR
+
+
+def quarantine_file(filepath):
+    try:
+        filename = os.path.basename(filepath)
+        dest_path = os.path.join(QUARANTINE_DIR, filename)
+        shutil.move(filepath, dest_path)
+        print(f"File {filename} Forced to Quarantine")
+        return dest_path
+
+
+    except Exception as e:
+        print(f"The Quarantine failed - Please Try Again: {e}")
+        return None
 
 
 def files_quarantined():

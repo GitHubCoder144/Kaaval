@@ -5,9 +5,8 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 # Watchdog libraries imported for cross-platform monitering
 
-from filescanner import filescan
+from .filescanner import filescan
 # imported from kavval filescanner.py
-from quarentine import files_quarantined
 # imported from kavval quarantine.py
 #Possibly not needed due to this script specifically for watchdog
 
@@ -26,7 +25,7 @@ class FileScanner(FileSystemEventHandler):
         filescan(filepath)
 # run the filescan function on the function
 
-def main():
+def scanner():
     downloads_path = os.path.expanduser("~/Downloads")
 # Kavval will watch downloads_path is the full expanded path to downloads
     print(f"Kavval starting watch on: {downloads_path}")
@@ -53,4 +52,4 @@ def main():
     observer.join()
 
 if __name__ == "__main__":
-    main()
+    scanner()
