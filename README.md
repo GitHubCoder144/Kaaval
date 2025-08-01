@@ -26,12 +26,12 @@ cd core
 ## Usage
 
 ```python
-# For macOS & Windows
+# For macOS 
 python Kaaval.py
 ```
 
 ```python
-# For Linux & BSD
+# For Windows, Linux, & BSD
 python Kaaval_Linux.py
 ```
 
