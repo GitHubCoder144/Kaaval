@@ -32,14 +32,14 @@ python Kaaval.py
 
 ```python
 # For Windows, Linux, & BSD
-python Kaaval_Linux.py
+python Kaaval_WLB.py
 ```
 
 ```python
 # For PYTHON 3
 python3 Kaaval.py
 # or 
-python3 Kaaval_Linux.py
+python3 Kaaval_WLB.py
 ```
 
 ## Contributing
