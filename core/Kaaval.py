@@ -1,6 +1,9 @@
 from core.downlwatch import scanner
+# for scanner running
 from core.logger import log_alerts
+# for the alert log to save alerts
 from core.notifier import ualerts
+# Notify user Kaaval in progress
 
 
 def main():
