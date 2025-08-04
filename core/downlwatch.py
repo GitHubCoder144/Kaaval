@@ -7,8 +7,6 @@ from watchdog.events import FileSystemEventHandler
 
 from .filescanner import filescan
 # imported from kavval filescanner.py
-# imported from kavval quarantine.py
-#Possibly not needed due to this script specifically for watchdog
 
 class FileScanner(FileSystemEventHandler):
 # custom class called filescanner using the input from watchdogs FileSystemEventHandler

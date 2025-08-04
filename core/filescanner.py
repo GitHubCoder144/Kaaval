@@ -16,9 +16,12 @@ from .notifier import ualerts
 # store malicious files
 def suspiciousfile(path):
     _, ext = os.path.splitext(path)
+    # splits the directory up to two readable parts: The toot name and extension
     ext = ext.lower()
+    # makes the extension lowercase
 
     current_os = platform.system()
+    # Checks the current OS its on
 
     if current_os == "Windows":
             suspicious_extensions = ['.exe', '.dll']
@@ -30,6 +33,8 @@ def suspiciousfile(path):
         suspicious_extensions = ['.sh', '.bin']
 
     return ext in suspicious_extensions
+# flags these potential extensions for double check and
+# puts any of these files into quarantine
 
 # extract and expands extension and verifys if suspicious
 
@@ -37,28 +42,27 @@ def quarantine(filepath):
     try:
         if not os.path.exists(QUARANTINE_DIR):
             os.makedirs(QUARANTINE_DIR)
+# 1. check if quarantined file exists and makes one if it doesnt
         filename = os.path.basename(filepath)
+# 2. takes filename from path
         quarantined_path = os.path.join(QUARANTINE_DIR, filename)
-
+# 3. builds a new quarantine location for the filename
         try:
             shutil.move(filepath, quarantined_path)
+# 4. moves suspicious file there
         except (PermissionError, FileNotFoundError) as e:
             print(f"Failed To Quarantined File {e}")
             return None
 
         return quarantined_path
+# 5. gives new location of file
     except Exception as outer_e:
         print(f"Unexpected Error During Quarantine Setup: {outer_e}")
         return None
 
-# 1. check if quarantined file exists and makes one if it doesnt
-# 2. takes filename from path
-# 3. builds a new quarantine location for the filename
-# 4. moves suspicious file there
-# 5. gives new location of file
-
 def filescan(filepath):
     if suspiciousfile(filepath):
+# If There Is a filepath added to suspicious file ---> Make user alert
         quarantined_path = quarantine(filepath)
         message = (
         f"📬Kavval has held '{os.path.basename(filepath)}' for secondary review.\n"
@@ -67,6 +71,7 @@ def filescan(filepath):
         )
         ualerts(message)
     else:
+# Else approve filepath to stay in downloads
         ualerts(
             f"'{os.path.basename(filepath)}' has been verified.\n"
             "This file may be used as intended."
