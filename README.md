@@ -30,7 +30,6 @@ pip3 install win10toast
 ```bash
 git clone https://github.com/GitHubCoder144/Kaaval.git
 cd Kaaval
-cd core 
 ```
 
 ## Usage
